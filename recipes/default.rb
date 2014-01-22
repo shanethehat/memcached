@@ -66,12 +66,6 @@ when 'rhel', 'fedora', 'suse'
     )
     notifies :restart, 'service[memcached]'
   end
-when 'smartos'
-  # SMF directly configures memcached with no opportunity to alter settings
-  # If you need custom parameters, use the memcached_instance provider
-  service 'memcached' do
-    action :enable
-  end
 else
   template '/etc/memcached.conf' do
     source 'memcached.conf.erb'
@@ -89,4 +83,8 @@ else
     )
     notifies :restart, 'service[memcached]'
   end
+end
+
+service 'memcached' do
+    action :enable
 end
